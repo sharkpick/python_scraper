@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 import urllib.request, urllib.error, urllib.parse
-import re, time, os
+import re, time, os, glob
 
+# quick, grab last (new) raw BL, before we make any new files
+raw_list = glob.glob('/home/will/data/raw/*')
+yesterday_bl = max(raw_list, key=os.path.getctime)
+#print(yesterday_bl) # debug
 # make some timestamps
 ts = time.gmtime()
 raw_ts = "/home/will/data/raw/raw-" +time.strftime("%Y%m%d", ts)
@@ -15,4 +19,15 @@ blacklist = raw_bl.split("\n")
 with open(raw_ts, "w") as f:
 	for x in blacklist:
 		f.write(re.sub(r"\;\d+", "",x) + "\n")
+# find diff - get yesterday's BL
+with open(yesterday_bl, "r") as f:
+	raw = f.read()
+yesterday = raw.split("\n")
 
+def Diff(yesterday, blacklist):
+	return(list(set(yesterday) - set(blacklist)))
+new_diff = Diff(yesterday, blacklist)
+new_diff.sort()
+with open(diff_ts, "w") as f:
+	for x in new_diff:
+		f.write(x + "\n")
