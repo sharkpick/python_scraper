@@ -21,9 +21,9 @@ def jw_spam():
 	return(raw_bl.split("\n"))
 # make a timestamp
 ts = time.gmtime()
-raw_ts = "/home/python_scraper/data/raw/raw-" +time.strftime("%Y%m%d", ts)
-diff_ts = "/home/python_scraper/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
-raw_list = glob.glob('/home/python_scraper/data/raw/*')
+raw_ts = "/home/will/python_scraper/data/raw/raw-" +time.strftime("%Y%m%d", ts)
+diff_ts = "/home/will/python_scraper/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
+raw_list = glob.glob('/home/will/python_scraper/data/raw/*')
 yesterday_bl = max(raw_list, key=os.path.getctime)
 # make var blacklist
 blacklist = set()
