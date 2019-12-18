@@ -21,10 +21,10 @@ def jw_spam():
 	return(raw_bl.split("\n"))
 # make a timestamp
 ts = time.gmtime()
-raw_ts = "/home/will/python_scraper/data/raw/raw-" +time.strftime("%Y%m%d", ts)
-diff_ts = "/home/will/python_scraper/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
-raw_list = glob.glob('/home/will/python_scraper/data/raw/*')
-yesterday_bl = max(raw_list, key=os.path.getctime)
+raw_ts = "/home/will/Data/raw/raw-" +time.strftime("%Y%m%d", ts)
+diff_ts = "/home/will/Data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
+raw_list = glob.glob('/home/will/Data/raw/*')
+err_check = int(len(raw_list)) # for later
 # make var blacklist
 blacklist = set()
 for x in jw_spam():
@@ -37,6 +37,10 @@ blacklist.sort()
 with open(raw_ts, 'w') as f:
 	for x in blacklist:
 		f.write(x + "\n")
+# exit semi-gracefully if not enough raw data yet
+if err_check < 2:
+	exit()
+yesterday_bl = max(raw_list, key=os.path.getctime)
 # grab var yesterday for diff
 with open(yesterday_bl, 'r') as f:
 	raw = f.read()
