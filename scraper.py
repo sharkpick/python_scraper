@@ -3,9 +3,6 @@ import urllib.request, urllib.error, urllib.parse
 import re, time, os, glob
 from urllib.request import Request, urlopen
 
-def diff(yesterday, blacklist):
-	return(list(set(yesterday) - (set(blacklist))))
-
 def malbytes_pull():
 	mal_bytes = "https://blog.malwarebytes.com/detection/domain/"
 	mal_regex = re.compile('<li><a href="https://blog.malwarebytes.com/detections/.+?/">(.+?)</a></li>')
@@ -19,34 +16,36 @@ def jw_spam():
 		raw_bl = response.read().decode("utf-8")
 	raw_bl= re.sub(r"\;\d+", "", raw_bl)
 	return(raw_bl.split("\n"))
-# make a timestamp
-ts = time.gmtime()
-raw_ts = "/home/will/Data/raw/raw-" +time.strftime("%Y%m%d", ts)
-diff_ts = "/home/will/Data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
-raw_list = glob.glob('/home/will/Data/raw/*')
-err_check = int(len(raw_list)) # for later
-# make var blacklist
+def timestamp():
+	global raw_ts, diff_ts, raw_list, err_check
+	ts = time.gmtime()
+	raw_ts = "/home/will/Scripts/domains_scraper/data/raw/raw-" +time.strftime("%Y%m%d", ts)
+	diff_ts = "/home/will/Scripts/domains_scraper/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
+	raw_list = glob.glob('/home/will/Scripts/domains_scraper/data/raw/*')
+	err_check = int(len(raw_list)) # for later
+# ok begin
+timestamp()
 blacklist = set()
 for x in jw_spam():
 	blacklist.add(x)
-for y in malbytes_pull():
-	blacklist.add(y)
-blacklist = list(blacklist)
-blacklist.sort()
-# write to file
-with open(raw_ts, 'w') as f:
-	for x in blacklist:
-		f.write(x + "\n")
-# exit semi-gracefully if not enough raw data yet
-if err_check < 2:
+for x in malbytes_pull():
+	blacklist.add(x)
+blacklist = list(sorted(blacklist))
+if err_check < 1:
+	with open(raw_ts, 'w') as f:
+		for x in blacklist:
+			f.write(x + "\n")
 	exit()
-yesterday_bl = max(raw_list, key=os.path.getctime)
-# grab var yesterday for diff
+else:
+	yesterday_bl = max(raw_list, key=os.path.getctime)
+	with open(raw_ts, 'w') as f:
+		for x in blacklist:
+			f.write(x + "\n")
 with open(yesterday_bl, 'r') as f:
 	raw = f.read()
 yesterday = raw.split("\n")
-new_diff = diff(yesterday, blacklist)
-new_diff.sort()
+new_diff = set(blacklist) - set(yesterday)
+new_diff = list(sorted(new_diff))
 with open(diff_ts, 'w') as f:
 	for x in new_diff:
 		f.write(x + "\n")
