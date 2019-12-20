@@ -19,9 +19,9 @@ def jw_spam():
 def timestamp():
 	global raw_ts, diff_ts, raw_list, err_check
 	ts = time.gmtime()
-	raw_ts = "/home/will/Scripts/domains_scraper/data/raw/raw-" +time.strftime("%Y%m%d", ts)
-	diff_ts = "/home/will/Scripts/domains_scraper/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
-	raw_list = glob.glob('/home/will/Scripts/domains_scraper/data/raw/*')
+	raw_ts = "/home/will/Scripts/python_scraper/data/raw/raw-" +time.strftime("%Y%m%d", ts)
+	diff_ts = "/home/will/Scripts/python_scraper/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
+	raw_list = glob.glob('/home/will/Scripts/python_scraper/data/raw/*')
 	err_check = int(len(raw_list)) # for later
 # ok begin
 timestamp()
