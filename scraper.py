@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import urllib.request, urllib.error, urllib.parse
-import re, time, os, glob
+import re, time, os
 from urllib.request import Request, urlopen
 
 def malbytes_pull():
