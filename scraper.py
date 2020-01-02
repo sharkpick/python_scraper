@@ -22,7 +22,7 @@ def timestamp():
 	ts = time.gmtime()
 	raw_ts = home + "/data/raw/raw-" +time.strftime("%Y%m%d", ts)
 	diff_ts = home + "/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
-	raw_list = glob.glob(home + "/data/raw/*")
+	raw_list = sorted(os.listdir(home + "/data/raw/"))
 	err_check = int(len(raw_list)) # for later
 # ok begin
 timestamp()
@@ -38,7 +38,7 @@ if err_check < 1:
 			f.write(x + "\n")
 	exit()
 else:
-	yesterday_bl = max(raw_list, key=os.path.getctime)
+	yesterday_bl = raw_list[-1]
 	with open(raw_ts, 'w') as f:
 		for x in blacklist:
 			f.write(x + "\n")
