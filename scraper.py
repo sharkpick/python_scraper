@@ -17,8 +17,9 @@ def jw_spam():
 	raw_bl= re.sub(r"\;\d+", "", raw_bl)
 	return(raw_bl.split("\n"))
 def timestamp():
-	global raw_ts, diff_ts, raw_list, err_check
+	global raw_ts, diff_ts, raw_list, err_check, raw_path
 	home = os.getcwd()
+	raw_path = home + "/data/raw/"
 	ts = time.gmtime()
 	raw_ts = home + "/data/raw/raw-" +time.strftime("%Y%m%d", ts)
 	diff_ts = home + "/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
@@ -38,7 +39,7 @@ if err_check < 1:
 			f.write(x + "\n")
 	exit()
 else:
-	yesterday_bl = raw_list[-1]
+	yesterday_bl = raw_path + raw_list[-1]
 	with open(raw_ts, 'w') as f:
 		for x in blacklist:
 			f.write(x + "\n")
