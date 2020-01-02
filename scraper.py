@@ -22,7 +22,7 @@ def timestamp():
 	ts = time.gmtime()
 	raw_ts = home + "/data/raw/raw-" +time.strftime("%Y%m%d", ts)
 	diff_ts = home + "/data/blacklists/bl-" +time.strftime("%Y%m%d", ts)
-	raw_list = glob.glob(home + '/data/raw/*')
+	raw_list = glob.glob(home + "/data/raw/*")
 	err_check = int(len(raw_list)) # for later
 # ok begin
 timestamp()
