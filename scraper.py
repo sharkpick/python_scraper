@@ -18,7 +18,7 @@ def jw_spam():
 	return(raw_bl.split("\n"))
 def timestamp():
 	global raw_ts, diff_ts, raw_list, err_check, raw_path
-	home = os.getcwd()
+	home = '/opt/python_scraper'
 	raw_path = home + "/data/raw/"
 	ts = time.gmtime()
 	raw_ts = home + "/data/raw/raw-" +time.strftime("%Y%m%d", ts)
