@@ -14,7 +14,7 @@ def jw_spam():
 	jw_spam = "https://joewein.net/dl/bl/dom-bl.txt"
 	with urllib.request.urlopen(jw_spam) as response:
 		raw_bl = response.read().decode("utf-8")
-	raw_bl= re.sub(r"\;\d+", "", raw_bl)
+	raw_bl= re.sub(r"(:|\;)\d+", "", raw_bl)
 	return(raw_bl.split("\n"))
 def timestamp():
 	global raw_ts, diff_ts, raw_list, err_check, raw_path
